@@ -1,0 +1,12 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /bst
+  tomcat:
+    uri-encoding: utf-8
+
+spring:
+  application:
+    name: BST
+  profiles:
+    active: dev

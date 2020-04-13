@@ -1,0 +1,39 @@
+
+spring:
+  datasource:
+    url: jdbc:mysql://47.74.61.111:9906/hive_market?useUnicode=true&useSSL=false&autoReconnect=false&rewriteBatchedStatements=true&characterEncoding=utf-8
+    #    url: jdbc:mysql://47.252.5.200:9906/hive_market?useUnicode=true&useSSL=false&autoReconnect=false&rewriteBatchedStatements=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: MPudKqs79V5ZWPHS
+    type: com.alibaba.druid.pool.DruidDataSource
+  thymeleaf:
+    cache: false
+  # REDIS (RedisProperties)
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器地址
+    #host: 192.168.1.199
+    #    host: 129.0.0.1
+    #    host: 47.75.218.43
+    host: 120.79.226.55
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: '123456'
+    pool:
+      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+      max-wait: 1
+      # 连接池中的最大空闲连接
+      max-idle: 8
+      # 连接池最大连接数（使用负值表示没有限制）
+      max-active: 8
+      # 连接池中的最小空闲连接
+      min-idle: 0
+    # 连接超时时间（毫秒）
+    timeout: 15000
+  session:
+    store-type: redis
+  mvc:
+    dispatch-options-request: true
