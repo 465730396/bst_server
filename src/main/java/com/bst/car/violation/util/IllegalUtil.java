@@ -1,6 +1,7 @@
 package com.bst.car.violation.util;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.util.Strings;
 
 import java.util.HashMap;
@@ -28,10 +29,8 @@ public class IllegalUtil {
 
         try {
             HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
-            result = response.toString();
-            System.out.println(response.toString());
             //获取response的body
-            //System.out.println(EntityUtils.toString(response.getEntity()));
+            result = EntityUtils.toString(response.getEntity());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -39,6 +38,11 @@ public class IllegalUtil {
     }
 
     public static void main(String[] args){
-        IllegalUtil.getIllegaData("陕","K188C7","230255","199701");
+//        IllegalUtil.getIllegaData("陕","K188C7","230255","");
+        System.out.println(IllegalUtil.getIllegaData("陕","A1X36Z","638199",""));
     }
+    //{"status":0,"msg":"恭喜您，没有违章！","result":{"lsprefix":"陕","lsnum":"K188C7","carorg":"shannxi","usercarid":null,"count":0,"totalprice":0,"totalscore":0,"list":[]}}
+    //{"status":"213","msg":"车牌不存在","result":""}
+    //{"status":"208","msg":"发动机号有误","result":""}
+    //{"status":0,"msg":"","result":{"lsprefix":"陕","lsnum":"A1X36Z","carorg":"shannxi","usercarid":49505307,"count":1,"totalprice":50,"totalscore":0,"list":[{"time":"2020-03-21 15:00:00","address":"壶口景区专线0000公里400米","content":"机动车乘坐人未使用安全带","legalnum":"30191","price":50,"score":0,"number":"6106300000344207","agency":"","handlefee":"41","illegalid":23360009,"province":"陕西","city":"延安","town":"宜川县","lat":"0.0000000000","lng":"0.0000000000","canhandle":1}]}}
 }
