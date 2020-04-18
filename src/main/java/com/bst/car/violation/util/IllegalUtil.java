@@ -1,8 +1,9 @@
 package com.bst.car.violation.util;
 
+import com.alibaba.fastjson.JSON;
+import com.bst.car.violation.entity.IllegaResponse;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
-import org.apache.logging.log4j.util.Strings;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,8 +17,7 @@ public class IllegalUtil {
     private static String method = "GET";
     private static String appcode = "2d5ed842d99c492f94a3b663755c3556";
 
-    public static String getIllegaData(String lsprefix,String lsnum,String engineno,String frameno){
-        String result = Strings.EMPTY;
+    public static IllegaResponse getIllegaData(String lsprefix, String lsnum, String engineno, String frameno){
         Map<String, String> headers = new HashMap<String, String>();
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put("Authorization", "APPCODE " + appcode);
@@ -30,11 +30,11 @@ public class IllegalUtil {
         try {
             HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
             //获取response的body
-            result = EntityUtils.toString(response.getEntity());
+            return JSON.parseObject(EntityUtils.toString(response.getEntity()),IllegaResponse.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     public static void main(String[] args){

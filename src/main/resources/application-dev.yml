@@ -17,11 +17,11 @@ spring:
     #host: 192.168.1.199
     #    host: 129.0.0.1
     #    host: 47.75.218.43
-    host: 120.79.226.55
+    host: 127.0.0.1
     # Redis服务器连接端口
     port: 6379
     # Redis服务器连接密码（默认为空）
-    password: '123456'
+    password:
     pool:
       # 连接池最大阻塞等待时间（使用负值表示没有限制）
       max-wait: 1
