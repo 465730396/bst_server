@@ -5,8 +5,28 @@
 开发工具 idea
 
 #################################mysql########################################
-wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.24-linux-glibc2.12-x86_64.tar.gz
+查看安装的mysql。
+# yum list installed |grep mysql
+mysql-libs.x86_64 5.1.73-8.el6_8 @base
+mysql57-community-release.noarch
 
+删除安装的mysql。
+# yum -y remove mysql57-community-release.noarch
+
+重新下载mysql的rpm文件。
+# wget https://dev.mysql.com/get/mysql57-community-release-el6-9.noarch.rpm
+
+安装Mysql的yum源。
+# rpm -ivh mysql57-community-release-el6-9.noarch.rpm
+
+安装Mysql。
+# yum install mysql-community-server
+
+1、使用 service 启动：
+[root@localhost /]# service mysqld start (5.0版本是mysqld)
+[root@szxdb etc]# service mysql start (5.5.7版本是mysql)
+修改密码
+ALTER USER 'root'@'localhost' IDENTIFIED BY '#######';
 
 #################################java########################################
 yum install java-1.8.0-openjdk.x86_64
@@ -29,6 +49,8 @@ yum install lrzsz
  ./nginx
  netstat -anp|grep 80
  curl localhost
+
+/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
 
 #################################redis########################################
 #redis
