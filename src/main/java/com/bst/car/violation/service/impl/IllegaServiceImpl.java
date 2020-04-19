@@ -36,7 +36,7 @@ class IllegaServiceImpl implements IllegaService {
             //成功请求
             response = CommonResponse.createBySuccess(illegaResponse.getMsg(),illegaResponse.getResult());
             log.error(JSON.toJSONString(response));
-            redisTemplate.opsForHash().put(carInfo.getLsprefix()+carInfo.getLsnum(),JSON.toJSONString(response),1000*60*30);
+//            redisTemplate.opsForHash().put(carInfo.getLsprefix()+carInfo.getLsnum(),JSON.toJSONString(response),1000*60*30);
             return response;
         }else{
             response = CommonResponse.createByErrorCodeMessage(illegaResponse.getStatus(), Constans.codesMap.get(illegaResponse.getStatus()));

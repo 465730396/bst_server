@@ -1,11 +1,11 @@
 
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:9906/bst?useUnicode=true&useSSL=false&autoReconnect=false&rewriteBatchedStatements=true&characterEncoding=utf-8
+    url: jdbc:mysql://127.0.0.1:3306/bst?useUnicode=true&useSSL=false&autoReconnect=false&rewriteBatchedStatements=true&characterEncoding=utf-8
     #    url: jdbc:mysql://47.252.5.200:9906/hive_market?useUnicode=true&useSSL=false&autoReconnect=false&rewriteBatchedStatements=true&characterEncoding=utf-8
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: MPudKqs79V5ZWPHS
+    password: '&14eDkvatY'
     type: com.alibaba.druid.pool.DruidDataSource
   thymeleaf:
     cache: false

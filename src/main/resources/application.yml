@@ -10,3 +10,11 @@ spring:
     name: BST
   profiles:
     active: dev
+#
+# logging
+#
+logging:
+  #path: /opt
+  path: /var/log/bst/log
+  level:
+    root: "INFO"
