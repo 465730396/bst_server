@@ -56,7 +56,7 @@ public class IllegalUtil {
             querys.put("frameno", frameno);//必选	车架号 根据管局需要输入（100为全部输入，0为不输入） 229561
             querys.put("lsnum", lsnum);//必选	车牌剩余部分 AH5b57
             querys.put("lsprefix", lsprefix);//必选	车牌前缀 浙
-            HttpResponse response = HttpUtils.doGet(aipPay.get("host"), aipPay.get("path"), aipPay.get("method"), headers, querys);
+            return HttpUtils.doGet(aipPay.get("host"), aipPay.get("path"), aipPay.get("method"), headers, querys);
             //获取response的body
             //return JSON.parseObject(EntityUtils.toString(response.getEntity()),IllegaResponse.class);
         } catch (Exception e) {
@@ -68,19 +68,20 @@ public class IllegalUtil {
     public static HttpResponse getIllegaDataByFree(String lsprefix, String lsnum, String engineno, String frameno){
         try {
             Map<String, String> headers = new HashMap();
-            headers.put("Content-type", "application/json");
+//            headers.put("Content-type", "application/json");
 
             Map<String, String> querys = new HashMap();
 
             Map<String, String> bodys = new HashMap();
-            bodys.put("t", "");
+            bodys.put("t", System.currentTimeMillis()+"");
             bodys.put("channel", "baidu_pc");
             bodys.put("access_token","");
             bodys.put("car_no",lsprefix.concat(lsnum));
             bodys.put("vin",frameno);
             bodys.put("engine",engineno);
             bodys.put("car_type","02");
-            bodys.put("md5","");
+            bodys.put("md5","178b2f03e993caf4d6865f4081e23ayb");
+            System.out.println(JSON.toJSON(bodys));
             return HttpUtils.doPost(aipFree.get("host"), aipFree.get("path"), aipFree.get("method"), headers, querys, bodys);
             //获取response的body
             //return JSON.parseObject(EntityUtils.toString(response.getEntity()),IllegaResponse.class);
@@ -93,7 +94,7 @@ public class IllegalUtil {
     public static void main(String[] args){
 //        IllegalUtil.getIllegaData("陕","K188C7","230255","");
 //        System.out.println(IllegalUtil.getIllegaData("陕","A1X36Z","638199",""));
-        System.out.println(IllegalUtil.postIllegaData("陕","A1X36Z","638199",""));
+        System.out.println(IllegalUtil.getIllegaData("陕","A7MT81","129767","000000"));
     }
     //{"status":0,"msg":"恭喜您，没有违章！","result":{"lsprefix":"陕","lsnum":"K188C7","carorg":"shannxi","usercarid":null,"count":0,"totalprice":0,"totalscore":0,"list":[]}}
     //{"status":"213","msg":"车牌不存在","result":""}
