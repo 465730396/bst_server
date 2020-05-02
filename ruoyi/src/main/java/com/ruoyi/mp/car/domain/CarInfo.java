@@ -16,4 +16,6 @@ public class CarInfo implements Serializable {
     private String updateTime;
     private Date lastQueryTime;
     private int queryCount;
+
+    private String[] illegaNumbers;
 }

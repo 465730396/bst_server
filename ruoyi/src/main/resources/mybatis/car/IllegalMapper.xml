@@ -6,10 +6,10 @@
 
     <insert id="insertIllegaDetailList" parameterType="com.ruoyi.mp.car.domain.IllegaDetail">
         insert into tb_illegal
-        (number,time,address,content,legalnum,price,score,agency,handlefee,illegalid,province,city,town,lat,lng,canhandle,create_time,update_time,lsprefix,lsnum)
+        (number,time,address,content,legalnum,price,score,agency,handlefee,illegalid,province,city,town,lat,lng,canhandle,create_time,update_time,lsprefix,lsnum,`status`)
         values
         <foreach  collection="illegaList" item="item" separator=",">
-            (#{item.number}, #{item.time}, #{item.address}, #{item.content}, #{item.legalnum}, #{item.price}, #{item.score}, #{item.agency}, #{item.handlefee}, #{item.illegalid}, #{item.province}, #{item.city}, #{item.town}, #{item.lat}, #{item.lng}, #{item.canhandle}, sysdate(), sysdate(), #{lsprefix}, #{lsnum})
+            (#{item.number}, #{item.time}, #{item.address}, #{item.content}, #{item.legalnum}, #{item.price}, #{item.score}, #{item.agency}, #{item.handlefee}, #{item.illegalid}, #{item.province}, #{item.city}, #{item.town}, #{item.lat}, #{item.lng}, #{item.canhandle}, sysdate(), sysdate(), #{lsprefix}, #{lsnum},1)
         </foreach>
         ON DUPLICATE KEY UPDATE
         <trim suffixOverrides=",">
@@ -61,6 +61,16 @@
         query_count = query_count + 1,
         last_query_time = sysdate()
         where lsprefix =#{lsprefix} AND lsnum =#{lsnum}
+    </update>
+
+    <update id="processIllegas"  >
+        update   tb_illegal set
+        `status` = 2
+        update_time = sysdate()
+        where number in
+        <foreach item="id" collection="IllegaNumbers" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </update>
 
 

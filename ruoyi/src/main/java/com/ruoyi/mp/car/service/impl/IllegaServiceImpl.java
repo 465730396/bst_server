@@ -43,12 +43,7 @@ class IllegaServiceImpl implements IllegaService {
 
             response = queryCarIllegaByHttp(carInfo);
         }else{
-            log.error(car.getLastQueryTime().toString());
-            log.error(JSON.toJSONString(car.getLastQueryTime()));
-            log.error(Long.toString(car.getLastQueryTime().getTime()));
-            log.error(Long.toString(System.currentTimeMillis()));
             long hourRange = (System.currentTimeMillis() - car.getLastQueryTime().getTime()) / (1000L * 60 * 60);
-            log.error(Long.toString(hourRange));
             if(hourRange > 6){
                 //超过6个小时 就查询http 否则查询DB
                 response = queryCarIllegaByHttp(car);
@@ -88,5 +83,14 @@ class IllegaServiceImpl implements IllegaService {
         result.setLsnum(car.getLsnum());
         illegalMapper.addCarQuery(car);
         return CommonResponse.createBySuccess(null,result);
+    }
+
+    @Override
+    public CommonResponse processCarIllega(String[] illegaNumbers) {
+        if(illegaNumbers == null || illegaNumbers.length == 0){
+            return CommonResponse.createByErrorMessage("违章代码不能为空");
+        }
+        illegalMapper.processIllegas(illegaNumbers);
+        return CommonResponse.createBySuccess();
     }
 }

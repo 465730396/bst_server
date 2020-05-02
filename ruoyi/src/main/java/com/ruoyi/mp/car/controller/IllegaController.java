@@ -17,4 +17,8 @@ public class IllegaController {
     public CommonResponse query(@RequestBody CarInfo carInfo) {
         return illegaService.queryCarIllega(carInfo);
     }
+    @PostMapping("/process")
+    public CommonResponse process(@RequestBody CarInfo carInfo) {
+        return illegaService.processCarIllega(carInfo.getIllegaNumbers());
+    }
 }
