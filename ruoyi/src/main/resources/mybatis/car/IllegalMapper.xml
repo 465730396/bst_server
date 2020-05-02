@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mp.car.mapper.IllegalMapper">
+
+    <insert id="insertIllegaDetailList" parameterType="com.ruoyi.mp.car.domain.IllegaDetail">
+        insert into tb_illegal
+        (number,time,address,content,legalnum,price,score,agency,handlefee,illegalid,province,city,town,lat,lng,canhandle,create_time,update_time,lsprefix,lsnum)
+        values
+        <foreach  collection="illegaList" item="item" separator=",">
+            (#{item.number}, #{item.time}, #{item.address}, #{item.content}, #{item.legalnum}, #{item.price}, #{item.score}, #{item.agency}, #{item.handlefee}, #{item.illegalid}, #{item.province}, #{item.city}, #{item.town}, #{item.lat}, #{item.lng}, #{item.canhandle}, sysdate(), sysdate(), #{lsprefix}, #{lsnum})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            price=values(price),
+        </trim>
+    </insert>
+
+    <select id="selectIllegaDetail" parameterType="com.ruoyi.mp.car.domain.IllegaDetail" resultType="com.ruoyi.mp.car.domain.IllegaDetail">
+        select * from tb_illegal
+        <where>
+            <if test="lsprefix != null and lsprefix != ''">
+                AND lsprefix =#{lsprefix}
+            </if>
+            <if test="lsnum != null and lsnum != ''">
+                AND lsnum =#{lsnum}
+            </if>
+        </where>
+        order by time desc
+    </select>
+
+
+    <insert id="insertCarInfo" parameterType="com.ruoyi.mp.car.domain.CarInfo">
+        insert into tb_car
+        (lsprefix,lsnum,engineno,frameno,create_time,update_time,last_query_time,query_count)
+        values
+        (#{lsprefix},#{lsnum},#{engineno},#{frameno}, sysdate(), sysdate(), sysdate(),1)
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            <if test="queryCount != ''">query_count=#{queryCount}+1,</if>
+            last_query_time=sysdate(),
+        </trim>
+    </insert>
+
+    <select id="getCarInfo" parameterType="com.ruoyi.mp.car.domain.CarInfo" resultType="com.ruoyi.mp.car.domain.CarInfo">
+        select *,last_query_time as 'lastQueryTime' from tb_car
+        <where>
+            <if test="lsprefix != null and lsprefix != ''">
+                AND lsprefix =#{lsprefix}
+            </if>
+            <if test="lsnum != null and lsnum != ''">
+                AND lsnum =#{lsnum}
+            </if>
+        </where>
+    </select>
+
+
+    <update id="addCarQuery" parameterType="com.ruoyi.mp.car.domain.CarInfo" >
+        update   tb_car set
+        query_count = query_count + 1,
+        last_query_time = sysdate()
+        where lsprefix =#{lsprefix} AND lsnum =#{lsnum}
+    </update>
+
+
+</mapper>

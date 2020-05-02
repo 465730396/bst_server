@@ -1,4 +1,4 @@
-package com.ruoyi.mp.car.entity.mys4s;
+package com.ruoyi.mp.car.domain.mys4s;
 
 import lombok.Data;
 

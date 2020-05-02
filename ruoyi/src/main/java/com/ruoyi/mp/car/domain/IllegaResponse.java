@@ -1,4 +1,4 @@
-package com.ruoyi.mp.car.entity;
+package com.ruoyi.mp.car.domain;
 
 import lombok.Data;
 

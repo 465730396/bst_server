@@ -1,11 +1,11 @@
 package com.ruoyi.mp.car.util;
 
 import com.alibaba.fastjson.JSON;
-import com.ruoyi.mp.car.entity.IllegaDetail;
-import com.ruoyi.mp.car.entity.IllegaResponse;
-import com.ruoyi.mp.car.entity.IllegaResult;
-import com.ruoyi.mp.car.entity.mys4s.S4SData;
-import com.ruoyi.mp.car.entity.mys4s.S4SRecord;
+import com.ruoyi.mp.car.domain.IllegaDetail;
+import com.ruoyi.mp.car.domain.IllegaResponse;
+import com.ruoyi.mp.car.domain.IllegaResult;
+import com.ruoyi.mp.car.domain.mys4s.S4SData;
+import com.ruoyi.mp.car.domain.mys4s.S4SRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;

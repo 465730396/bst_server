@@ -1,9 +1,14 @@
-package com.ruoyi.mp.car.entity;
+package com.ruoyi.mp.car.domain;
 
 import lombok.Data;
 
 @Data
 public class IllegaDetail {
+            private String lsprefix;
+            private String lsnum;
+            private String createTime;
+            private String updateTime;
+
 			private String time;//": "2020-03-21 15:00:00",
             private String address;//": "壶口景区专线0000公里400米",
             private String content;//": "机动车乘坐人未使用安全带",

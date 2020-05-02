@@ -1,11 +1,12 @@
-package com.ruoyi.mp.car.entity;
+package com.ruoyi.mp.car.domain;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class IllegaResult {
+public class IllegaResult implements Serializable {
 		private String lsprefix;//": "陕",
         private String lsnum;//": "A1X36Z",
         private String carorg;//": "shannxi",
