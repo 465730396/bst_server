@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -63,8 +64,17 @@ class IllegaServiceImpl implements IllegaService {
 
         if(illegaResponse.getStatus() == 0){
             //成功请求
-            response = CommonResponse.createBySuccess(illegaResponse.getMsg(),illegaResponse.getResult());
-            log.error(JSON.toJSONString(response));
+            IllegaResult result = illegaResponse.getResult();
+            List<IllegaDetail> illegaList = result.getList();
+            for(IllegaDetail ill : illegaList){
+                if(Constans.daijiaoCodes.contains(ill.getLegalnum())){
+                    ill.setCanprocess(1);
+                    ill.setProcessfree(new BigDecimal(30));
+                }
+            }
+            result.setList(illegaList);
+
+            response = CommonResponse.createBySuccess(illegaResponse.getMsg(),result);
             illegalMapper.insertCarInfo(carInfo);
             illegalMapper.insertIllegaDetailList(illegaResponse.getResult().getList(),carInfo.getLsprefix(),carInfo.getLsnum());
             //redisTemplate.opsForHash().put(carInfo.getLsprefix()+carInfo.getLsnum(),JSON.toJSONString(response),1000*60*30);
@@ -92,5 +102,16 @@ class IllegaServiceImpl implements IllegaService {
         }
         illegalMapper.processIllegas(illegaNumbers);
         return CommonResponse.createBySuccess();
+    }
+
+    @Override
+    public CommonResponse completeCarIllega(String[] illegaNumbers) {
+        illegalMapper.completeIllegas(illegaNumbers);
+        return CommonResponse.createBySuccess();
+    }
+
+    @Override
+    public CommonResponse queryIllegaDetailOrder(CarInfo car) {
+        return CommonResponse.createBySuccess(illegalMapper.queryIllegaDetailOrder(car.getLsprefix(),car.getLsnum()));
     }
 }

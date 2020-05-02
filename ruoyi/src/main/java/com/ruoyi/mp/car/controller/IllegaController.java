@@ -21,4 +21,14 @@ public class IllegaController {
     public CommonResponse process(@RequestBody CarInfo carInfo) {
         return illegaService.processCarIllega(carInfo.getIllegaNumbers());
     }
+
+    @PostMapping("/complete")
+    public CommonResponse complete(@RequestBody CarInfo carInfo) {
+        return illegaService.completeCarIllega(carInfo.getIllegaNumbers());
+    }
+
+    @PostMapping("/order")
+    public CommonResponse queryOrders(@RequestBody CarInfo carInfo) {
+        return illegaService.queryIllegaDetailOrder(carInfo);
+    }
 }

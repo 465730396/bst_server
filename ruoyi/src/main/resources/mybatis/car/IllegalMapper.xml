@@ -6,28 +6,53 @@
 
     <insert id="insertIllegaDetailList" parameterType="com.ruoyi.mp.car.domain.IllegaDetail">
         insert into tb_illegal
-        (number,time,address,content,legalnum,price,score,agency,handlefee,illegalid,province,city,town,lat,lng,canhandle,create_time,update_time,lsprefix,lsnum,`status`)
+        (number,time,address,content,legalnum,price,score,agency,handlefee,illegalid,province,city,town,lat,lng,canhandle,create_time,update_time,lsprefix,lsnum,`status`,processfree,canprocess)
         values
         <foreach  collection="illegaList" item="item" separator=",">
-            (#{item.number}, #{item.time}, #{item.address}, #{item.content}, #{item.legalnum}, #{item.price}, #{item.score}, #{item.agency}, #{item.handlefee}, #{item.illegalid}, #{item.province}, #{item.city}, #{item.town}, #{item.lat}, #{item.lng}, #{item.canhandle}, sysdate(), sysdate(), #{lsprefix}, #{lsnum},1)
+            (#{item.number}, #{item.time}, #{item.address}, #{item.content}, #{item.legalnum}, #{item.price}, #{item.score}, #{item.agency}, #{item.handlefee}, #{item.illegalid}, #{item.province}, #{item.city}, #{item.town}, #{item.lat}, #{item.lng}, #{item.canhandle}, sysdate(), sysdate(), #{lsprefix}, #{lsnum},0,#{item.processfree},#{item.canprocess})
         </foreach>
         ON DUPLICATE KEY UPDATE
         <trim suffixOverrides=",">
             price=values(price),
+            processfree=values(processfree),
+            canprocess=values(canprocess),
         </trim>
     </insert>
 
     <select id="selectIllegaDetail" parameterType="com.ruoyi.mp.car.domain.IllegaDetail" resultType="com.ruoyi.mp.car.domain.IllegaDetail">
-        select * from tb_illegal
+        select a.number,
+        a.time,
+        a.address,
+        a.content,
+        a.legalnum,
+        a.price,
+        a.score,
+        a.agency,
+        a.handlefee,
+        a.illegalid,
+        a.province,
+        a.city,
+        a.town,
+        a.lat,
+        a.lng,
+        a.canhandle,
+        a.create_time,
+        a.update_time,
+        a.lsprefix,
+        a.lsnum,
+        b.status,
+        a.processfree,
+        a.canProcess
+        from tb_illegal a left join tb_illegal_process  b on a.number=b.number
         <where>
             <if test="lsprefix != null and lsprefix != ''">
-                AND lsprefix =#{lsprefix}
+                AND a.lsprefix =#{lsprefix}
             </if>
             <if test="lsnum != null and lsnum != ''">
-                AND lsnum =#{lsnum}
+                AND a.lsnum =#{lsnum}
             </if>
         </where>
-        order by time desc
+        order by a.time desc
     </select>
 
 
@@ -63,15 +88,25 @@
         where lsprefix =#{lsprefix} AND lsnum =#{lsnum}
     </update>
 
-    <update id="processIllegas"  >
-        update   tb_illegal set
-        `status` = 2
-        update_time = sysdate()
+    <insert id="processIllegas"  >
+        insert into tb_illegal_process select * from tb_illegal
         where number in
         <foreach item="id" collection="IllegaNumbers" open="(" separator="," close=")">
             #{id}
         </foreach>
-    </update>
+    </insert>
+    <insert id="completeIllegas"  >
+        update  tb_illegal_process status set `status` = 1
+        where number in
+        <foreach item="id" collection="IllegaNumbers" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </insert>
+    <select id="queryIllegaDetailOrder" resultType="com.ruoyi.mp.car.domain.IllegaDetail">
+        select *
+        from tb_illegal_process
+        order by time desc
+    </select>
 
 
 </mapper>
