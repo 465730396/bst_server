@@ -105,6 +105,14 @@
     <select id="queryIllegaDetailOrder" resultType="com.ruoyi.mp.car.domain.IllegaDetail">
         select *
         from tb_illegal_process
+        <where>
+            <if test="lsprefix != null and lsprefix != ''">
+                AND lsprefix =#{lsprefix}
+            </if>
+            <if test="lsnum != null and lsnum != ''">
+                AND lsnum =#{lsnum}
+            </if>
+        </where>
         order by time desc
     </select>
 

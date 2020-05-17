@@ -16,6 +16,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class CommonResponse<T> implements Serializable {
 
+    private int code = 200;
     private int status;
     private String msg;
     private T data;
@@ -23,22 +24,34 @@ public class CommonResponse<T> implements Serializable {
 
     private CommonResponse(int status) {
         this.status = status;
+        if(ResponseCode.SUCCESS.getCode() != status){
+            this.code = this.code + 1;
+        }
     }
 
     private CommonResponse(int status, T data) {
         this.status = status;
         this.data = data;
+        if(ResponseCode.SUCCESS.getCode() != status){
+            this.code = this.code + 1;
+        }
     }
 
     private CommonResponse(int status, String msg, T data) {
         this.status = status;
         this.msg = msg;
         this.data = data;
+        if(ResponseCode.SUCCESS.getCode() != status){
+            this.code = this.code + 1;
+        }
     }
 
     private CommonResponse(int status, String msg) {
         this.status = status;
         this.msg = msg;
+        if(ResponseCode.SUCCESS.getCode() != status){
+            this.code = this.code + 1;
+        }
     }
 
     @JsonIgnore
@@ -49,6 +62,10 @@ public class CommonResponse<T> implements Serializable {
 
     public int getStatus() {
         return status;
+    }
+
+    public int getCode() {
+        return code;
     }
 
     public T getData() {

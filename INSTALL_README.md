@@ -30,7 +30,8 @@ mysql57-community-release.noarch
 cat /var/log/mysqld.log | grep password
 修改密码
 ALTER USER 'root'@'localhost' IDENTIFIED BY '#######';
-grant select,create,drop,update,alter,insert,delete  on *.* to '#####'@'######' identified by '#####' with grant option;
+grant select,create,drop,update,alter,insert,delete  on *.* to 'root'@'######' identified by '&14eDkvatY' with grant option;
+grant all on *.* to root@'%';
 #################################java########################################
 yum install java-1.8.0-openjdk.x86_64
 

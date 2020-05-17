@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import com.ruoyi.common.filter.RepeatableFilter;
 import com.ruoyi.common.filter.XssFilter;
 import com.ruoyi.common.utils.StringUtils;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 /**
  * Filter配置
@@ -55,6 +58,35 @@ public class FilterConfig
         registration.setName("repeatableFilter");
         registration.setOrder(FilterRegistrationBean.LOWEST_PRECEDENCE);
         return registration;
+    }
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        //允许所有域名进行跨域调用
+        config.addAllowedOrigin("*");
+        //允许跨越发送cookie
+        config.setAllowCredentials(true);
+        //放行全部原始头信息
+        config.addAllowedHeader("*");
+        //允许所有请求方法跨域调用
+        config.addAllowedMethod("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
+
+    @Bean
+    public FilterRegistrationBean corsFilter2() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(0);
+        return bean;
     }
 
 }
