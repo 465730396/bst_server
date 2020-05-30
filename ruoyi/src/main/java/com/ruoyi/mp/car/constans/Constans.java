@@ -43,5 +43,7 @@ public class Constans {
         daijiaoCodes.add("1018");
         daijiaoCodes.add("10399");//
         daijiaoCodes.add("10789");
+        daijiaoCodes.add("6050");
+        daijiaoCodes.add("6011");
     }
 }

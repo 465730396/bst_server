@@ -58,9 +58,9 @@
 
     <insert id="insertCarInfo" parameterType="com.ruoyi.mp.car.domain.CarInfo">
         insert into tb_car
-        (lsprefix,lsnum,engineno,frameno,create_time,update_time,last_query_time,query_count)
+        (lsprefix,lsnum,engineno,frameno,create_time,update_time,last_query_time,query_count,mobile)
         values
-        (#{lsprefix},#{lsnum},#{engineno},#{frameno}, sysdate(), sysdate(), sysdate(),1)
+        (#{lsprefix},#{lsnum},#{engineno},#{frameno}, sysdate(), sysdate(), sysdate(),1,#{mobile})
         ON DUPLICATE KEY UPDATE
         <trim suffixOverrides=",">
             <if test="queryCount != ''">query_count=#{queryCount}+1,</if>
@@ -90,6 +90,18 @@
 
     <insert id="processIllegas"  >
         insert into tb_illegal_process select * from tb_illegal
+        where number in
+        <foreach item="id" collection="IllegaNumbers" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        <trim suffixOverrides=",">
+            update_time=values(update_time),
+            `status`=0,
+        </trim>
+    </insert>
+    <insert id="unProcessIllegas"  >
+        update  tb_illegal_process status set `status` = null
         where number in
         <foreach item="id" collection="IllegaNumbers" open="(" separator="," close=")">
             #{id}

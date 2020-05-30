@@ -76,7 +76,9 @@ class IllegaServiceImpl implements IllegaService {
 
             response = CommonResponse.createBySuccess(illegaResponse.getMsg(),result);
             illegalMapper.insertCarInfo(carInfo);
-            illegalMapper.insertIllegaDetailList(illegaResponse.getResult().getList(),carInfo.getLsprefix(),carInfo.getLsnum());
+            if(illegaResponse.getResult().getList().size() > 0){
+                illegalMapper.insertIllegaDetailList(illegaResponse.getResult().getList(),carInfo.getLsprefix(),carInfo.getLsnum());
+            }
             //redisTemplate.opsForHash().put(carInfo.getLsprefix()+carInfo.getLsnum(),JSON.toJSONString(response),1000*60*30);
         }else{
             response = CommonResponse.createByErrorCodeMessage(illegaResponse.getStatus(), Constans.codesMap.get(illegaResponse.getStatus()));
@@ -101,6 +103,15 @@ class IllegaServiceImpl implements IllegaService {
             return CommonResponse.createByErrorMessage("违章代码不能为空");
         }
         illegalMapper.processIllegas(illegaNumbers);
+        return CommonResponse.createBySuccess();
+    }
+
+    @Override
+    public CommonResponse unProcessIllegas(String[] illegaNumbers) {
+        if(illegaNumbers == null || illegaNumbers.length == 0){
+            return CommonResponse.createByErrorMessage("违章代码不能为空");
+        }
+        illegalMapper.unProcessIllegas(illegaNumbers);
         return CommonResponse.createBySuccess();
     }
 

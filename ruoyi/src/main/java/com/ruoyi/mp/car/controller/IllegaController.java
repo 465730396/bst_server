@@ -22,6 +22,16 @@ public class IllegaController {
         return illegaService.processCarIllega(carInfo.getIllegaNumbers());
     }
 
+    /**
+     * 付款失败 混滚数据
+     * @param carInfo
+     * @return
+     */
+    @PostMapping("/unProcess")
+    public CommonResponse unProcess(@RequestBody CarInfo carInfo) {
+        return illegaService.unProcessIllegas(carInfo.getIllegaNumbers());
+    }
+
     @PostMapping("/complete")
     public CommonResponse complete(@RequestBody CarInfo carInfo) {
         return illegaService.completeCarIllega(carInfo.getIllegaNumbers());

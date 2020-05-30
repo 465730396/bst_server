@@ -29,6 +29,7 @@ public interface IllegalMapper
     public int addCarQuery(CarInfo carInfo);
 
     public int processIllegas(@Param("IllegaNumbers")String[] IllegaNumbers);
+    public int unProcessIllegas(@Param("IllegaNumbers")String[] IllegaNumbers);
     public int completeIllegas(@Param("IllegaNumbers")String[] IllegaNumbers);
     public List<IllegaDetail> queryIllegaDetailOrder(@Param("lsprefix")String lsprefix,@Param("lsnum")String lsnum);
 }

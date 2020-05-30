@@ -8,6 +8,7 @@ public interface  IllegaService {
     public CommonResponse queryCarIllegaByHttp(CarInfo carInfo);
     public CommonResponse queryCarIllegaByDB(CarInfo carInfo);
     public CommonResponse processCarIllega(String[] illegaNumbers);
+    public CommonResponse unProcessIllegas(String[] illegaNumbers);
     public CommonResponse completeCarIllega(String[] illegaNumbers);
     public CommonResponse queryIllegaDetailOrder(CarInfo carInfo);
 }
