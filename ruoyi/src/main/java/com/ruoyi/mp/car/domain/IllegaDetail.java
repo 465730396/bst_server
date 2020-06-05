@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 public class IllegaDetail {
             private String lsprefix;
             private String lsnum;
+            private String engineno;
+            private String frameno;
             private String createTime;
             private String updateTime;
             private Integer status ;//默认是1 新增数据

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 调度任务日志信息 数据层
@@ -25,11 +26,13 @@ public interface IllegalMapper
     public List<IllegaDetail> selectIllegaDetail(@Param("lsprefix")String lsprefix,@Param("lsnum")String lsnum);
     public CarInfo getCarInfo(CarInfo carInfo);
     public int insertCarInfo(CarInfo carInfo);
+    public int deleteIllegaDetailList(CarInfo carInfo);
     public int insertIllegaDetailList(@Param("illegaList")List<IllegaDetail> illegaList,@Param("lsprefix")String lsprefix,@Param("lsnum")String lsnum);
     public int addCarQuery(CarInfo carInfo);
 
     public int processIllegas(@Param("IllegaNumbers")String[] IllegaNumbers);
     public int unProcessIllegas(@Param("IllegaNumbers")String[] IllegaNumbers);
     public int completeIllegas(@Param("IllegaNumbers")String[] IllegaNumbers);
-    public List<IllegaDetail> queryIllegaDetailOrder(@Param("lsprefix")String lsprefix,@Param("lsnum")String lsnum);
+    public int backMonyCarIllega(@Param("IllegaNumbers")String[] IllegaNumbers);
+    public List<IllegaDetail> queryIllegaDetailOrder(@Param("param")Map data);
 }

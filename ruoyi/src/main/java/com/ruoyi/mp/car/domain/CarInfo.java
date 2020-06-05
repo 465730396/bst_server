@@ -12,6 +12,7 @@ public class CarInfo implements Serializable {
     private String engineno;
     private String frameno;
     private String mobile;
+    private String biz;
 
     private String createTime;
     private String updateTime;

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -62,20 +63,24 @@ class IllegaServiceImpl implements IllegaService {
         CommonResponse response = null;
         IllegaResponse illegaResponse = IllegalUtil.getIllegaData(carInfo.getLsprefix(),carInfo.getLsnum(),carInfo.getEngineno(),carInfo.getFrameno());
 
+        String status = "0";
+        log.error(JSON.toJSONString(illegaResponse));
         if(illegaResponse.getStatus() == 0){
             //成功请求
             IllegaResult result = illegaResponse.getResult();
             List<IllegaDetail> illegaList = result.getList();
             for(IllegaDetail ill : illegaList){
-                if(Constans.daijiaoCodes.contains(ill.getLegalnum())){
+                if(Constans.daijiaoCodes.contains(ill.getLegalnum()) && "陕".equals(ill.getLsprefix())){
                     ill.setCanprocess(1);
-                    ill.setProcessfree(new BigDecimal(30));
+                    ill.setProcessfree(new BigDecimal(28));
                 }
             }
             result.setList(illegaList);
 
             response = CommonResponse.createBySuccess(illegaResponse.getMsg(),result);
             illegalMapper.insertCarInfo(carInfo);
+            //删除后在写入
+            illegalMapper.deleteIllegaDetailList(carInfo);
             if(illegaResponse.getResult().getList().size() > 0){
                 illegalMapper.insertIllegaDetailList(illegaResponse.getResult().getList(),carInfo.getLsprefix(),carInfo.getLsnum());
             }
@@ -122,7 +127,14 @@ class IllegaServiceImpl implements IllegaService {
     }
 
     @Override
-    public CommonResponse queryIllegaDetailOrder(CarInfo car) {
-        return CommonResponse.createBySuccess(illegalMapper.queryIllegaDetailOrder(car.getLsprefix(),car.getLsnum()));
+    public CommonResponse backMonyCarIllega(String[] illegaNumbers) {
+        illegalMapper.backMonyCarIllega(illegaNumbers);
+        return CommonResponse.createBySuccess();
     }
+
+    @Override
+    public CommonResponse queryIllegaDetailOrder(Map param) {
+        return CommonResponse.createBySuccess(illegalMapper.queryIllegaDetailOrder(param));
+    }
+
 }

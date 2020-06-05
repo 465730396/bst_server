@@ -23,6 +23,7 @@ public class Constans {
         codesMap.put(210,"车架号有误");
         codesMap.put(211,"登记证书号为空");
         codesMap.put(212,"登记证书号有误");
+        codesMap.put(213,"车牌不存在");
         codesMap.put(216,"其他为空");
         codesMap.put(220,"交管局服务器错误");
         codesMap.put(230,"没有信息");

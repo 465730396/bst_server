@@ -58,9 +58,9 @@
 
     <insert id="insertCarInfo" parameterType="com.ruoyi.mp.car.domain.CarInfo">
         insert into tb_car
-        (lsprefix,lsnum,engineno,frameno,create_time,update_time,last_query_time,query_count,mobile)
+        (lsprefix,lsnum,engineno,frameno,create_time,update_time,last_query_time,query_count,mobile,biz)
         values
-        (#{lsprefix},#{lsnum},#{engineno},#{frameno}, sysdate(), sysdate(), sysdate(),1,#{mobile})
+        (#{lsprefix},#{lsnum},#{engineno},#{frameno}, sysdate(), sysdate(), sysdate(),1,#{mobile},#{biz})
         ON DUPLICATE KEY UPDATE
         <trim suffixOverrides=",">
             <if test="queryCount != ''">query_count=#{queryCount}+1,</if>
@@ -116,17 +116,43 @@
     </insert>
     <select id="queryIllegaDetailOrder" resultType="com.ruoyi.mp.car.domain.IllegaDetail">
         select *
-        from tb_illegal_process
+        from tb_illegal_process t
+        left join tb_car c on c.lsprefix = t.lsprefix and c.lsnum = t.lsnum
         <where>
-            <if test="lsprefix != null and lsprefix != ''">
-                AND lsprefix =#{lsprefix}
+            <if test="param.lsprefix != null and param.lsprefix != ''">
+                AND t.lsprefix =#{param.lsprefix}
             </if>
-            <if test="lsnum != null and lsnum != ''">
-                AND lsnum =#{lsnum}
+            <if test="param.lsnum != null and param.lsnum != ''">
+                AND t.lsnum =#{param.lsnum}
+            </if>
+            <if test="param.engineno != null and param.engineno != ''">
+                AND c.engineno =#{param.engineno}
+            </if>
+            <if test="param.lsnum != null and param.lsnum != ''">
+                AND c.frameno =#{param.frameno}
+            </if>
+            <if test="param.status != null and param.status != ''">
+                AND t.status =#{param.status}
+            </if>
+            <if test="param.biz != null and param.biz != ''">
+                AND c.biz =#{param.biz}
             </if>
         </where>
-        order by time desc
+        order by t.time desc
     </select>
+    <update id="backMonyCarIllega">
+        update  tb_illegal_process status set `status` = -1
+        where number in
+        <foreach item="id" collection="IllegaNumbers" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <delete id="deleteIllegaDetailList">
+        delete from tb_illegal
+        where
+         lsprefix =#{lsprefix}
+        AND lsnum =#{lsnum}
+    </delete>
 
 
 </mapper>

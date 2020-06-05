@@ -140,7 +140,9 @@ public class IllegalUtil {
     public static void main(String[] args){
 //        IllegalUtil.getIllegaData("陕","K188C7","230255","");
 //        System.out.println(IllegalUtil.getIllegaData("陕","A1X36Z","638199",""));
-        System.out.println(JSON.toJSONString(IllegalUtil.getIllegaData("陕","A7MT81","129767","000000")));
+        String s = "{\"status\":\"213\",\"msg\":\"车牌不存在\",\"result\":\"\"}";
+        JSON.parseObject(s,IllegaResponse.class);
+//        System.out.println(JSON.toJSONString(IllegalUtil.getIllegaData("陕","A7MT81","129767","000000")));
     }
     //{"status":0,"msg":"恭喜您，没有违章！","result":{"lsprefix":"陕","lsnum":"K188C7","carorg":"shannxi","usercarid":null,"count":0,"totalprice":0,"totalscore":0,"list":[]}}
     //{"status":"213","msg":"车牌不存在","result":""}
