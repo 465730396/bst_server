@@ -36,4 +36,11 @@ public class IllegaController {
         return illegaService.queryIllegaDetailOrder(param);
     }
 
+    @PostMapping("/car")
+    @PreAuthorize("@ss.hasPermi('car:illega:index')")
+    public CommonResponse queryCars(@RequestBody Map param) {
+        param.put("biz",SecurityUtils.getLoginUser().getUser().getUserId());
+        return illegaService.queryIllegaCarList(param);
+    }
+
 }

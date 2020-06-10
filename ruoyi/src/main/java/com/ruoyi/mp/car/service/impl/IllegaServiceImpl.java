@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -63,14 +64,14 @@ class IllegaServiceImpl implements IllegaService {
         CommonResponse response = null;
         IllegaResponse illegaResponse = IllegalUtil.getIllegaData(carInfo.getLsprefix(),carInfo.getLsnum(),carInfo.getEngineno(),carInfo.getFrameno());
 
-        String status = "0";
         log.error(JSON.toJSONString(illegaResponse));
         if(illegaResponse.getStatus() == 0){
             //成功请求
             IllegaResult result = illegaResponse.getResult();
+
             List<IllegaDetail> illegaList = result.getList();
             for(IllegaDetail ill : illegaList){
-                if(Constans.daijiaoCodes.contains(ill.getLegalnum()) && "陕".equals(ill.getLsprefix())){
+                if(Constans.daijiaoCodes.contains(ill.getLegalnum()) && "陕".equals(carInfo.getLsprefix())){
                     ill.setCanprocess(1);
                     ill.setProcessfree(new BigDecimal(28));
                 }
@@ -98,7 +99,7 @@ class IllegaServiceImpl implements IllegaService {
         result.setList(illegaDetails);
         result.setLsprefix(car.getLsprefix());
         result.setLsnum(car.getLsnum());
-        illegalMapper.addCarQuery(car);
+        illegalMapper.insertCarInfo(car);
         return CommonResponse.createBySuccess(null,result);
     }
 
@@ -135,6 +136,11 @@ class IllegaServiceImpl implements IllegaService {
     @Override
     public CommonResponse queryIllegaDetailOrder(Map param) {
         return CommonResponse.createBySuccess(illegalMapper.queryIllegaDetailOrder(param));
+    }
+
+    @Override
+    public CommonResponse queryIllegaCarList(Map param) {
+        return CommonResponse.createBySuccess(illegalMapper.queryIllegaCars(param));
     }
 
 }

@@ -14,4 +14,5 @@ public interface  IllegaService {
     public CommonResponse completeCarIllega(String[] illegaNumbers);
     public CommonResponse backMonyCarIllega(String[] illegaNumbers);
     public CommonResponse queryIllegaDetailOrder(Map param);
+    public CommonResponse queryIllegaCarList(Map param);
 }

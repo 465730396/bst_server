@@ -153,6 +153,24 @@
          lsprefix =#{lsprefix}
         AND lsnum =#{lsnum}
     </delete>
+    <select id="queryIllegaCars" resultType="com.ruoyi.mp.car.domain.CarInfo">
+        select *,last_query_time as 'lastQueryTime'
+        ,create_time as 'createTime'
+        ,update_time as 'updateTime'
+        ,query_count as 'queryCount' from tb_car c
+        <where>
+            <if test="param.lsprefix != null and param.lsprefix != ''">
+                AND c.lsprefix =#{param.lsprefix}
+            </if>
+            <if test="param.lsnum != null and param.lsnum != ''">
+                AND c.lsnum =#{param.lsnum}
+            </if>
+            <if test="param.biz != null and param.biz != ''">
+                AND c.biz =#{param.biz}
+            </if>
+        </where>
+        order by c.create_time desc
+    </select>
 
 
 </mapper>

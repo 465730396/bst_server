@@ -35,4 +35,5 @@ public interface IllegalMapper
     public int completeIllegas(@Param("IllegaNumbers")String[] IllegaNumbers);
     public int backMonyCarIllega(@Param("IllegaNumbers")String[] IllegaNumbers);
     public List<IllegaDetail> queryIllegaDetailOrder(@Param("param")Map data);
+    public List<CarInfo> queryIllegaCars(@Param("param")Map data);
 }
