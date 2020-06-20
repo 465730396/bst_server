@@ -51,7 +51,7 @@ class IllegaServiceImpl implements IllegaService {
                 //超过6个小时 就查询http 否则查询DB
                 response = queryCarIllegaByHttp(car);
             }else{
-                response = queryCarIllegaByDB(carInfo);
+                response = queryCarIllegaByDB(car);
             }
         }
 
@@ -134,13 +134,13 @@ class IllegaServiceImpl implements IllegaService {
     }
 
     @Override
-    public CommonResponse queryIllegaDetailOrder(Map param) {
-        return CommonResponse.createBySuccess(illegalMapper.queryIllegaDetailOrder(param));
+    public List<IllegaDetail> queryIllegaDetailOrder(Map param) {
+        return illegalMapper.queryIllegaDetailOrder(param);
     }
 
     @Override
-    public CommonResponse queryIllegaCarList(Map param) {
-        return CommonResponse.createBySuccess(illegalMapper.queryIllegaCars(param));
+    public List<CarInfo> queryIllegaCarList(Map param) {
+        return illegalMapper.queryIllegaCars(param);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.ruoyi.mp.car.controller;
 
 import com.ruoyi.common.utils.SecurityUtils;
+import com.ruoyi.framework.web.controller.BaseController;
+import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.mp.car.domain.CarInfo;
 import com.ruoyi.mp.car.service.IllegaService;
 import com.ruoyi.mp.car.vo.CommonResponse;
@@ -12,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/illega")
-public class IllegaController {
+public class IllegaController extends BaseController {
 
     @Autowired
     private IllegaService illegaService;
@@ -29,18 +31,20 @@ public class IllegaController {
         return illegaService.backMonyCarIllega(carInfo.getIllegaNumbers());
     }
 
-    @PostMapping("/order")
+    @GetMapping("/order")
     @PreAuthorize("@ss.hasPermi('car:illega:index')")
-    public CommonResponse queryOrders(@RequestBody Map param) {
+    public TableDataInfo queryOrders( Map param) {
+        startPage();
         param.put("biz",SecurityUtils.getLoginUser().getUser().getUserId());
-        return illegaService.queryIllegaDetailOrder(param);
+        return getDataTable(illegaService.queryIllegaDetailOrder(param));
     }
 
-    @PostMapping("/car")
+    @GetMapping("/car")
     @PreAuthorize("@ss.hasPermi('car:illega:index')")
-    public CommonResponse queryCars(@RequestBody Map param) {
+    public TableDataInfo queryCars(Map param) {
+        startPage();
         param.put("biz",SecurityUtils.getLoginUser().getUser().getUserId());
-        return illegaService.queryIllegaCarList(param);
+        return getDataTable(illegaService.queryIllegaCarList(param));
     }
 
 }

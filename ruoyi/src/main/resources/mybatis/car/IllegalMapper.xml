@@ -128,7 +128,7 @@
             <if test="param.engineno != null and param.engineno != ''">
                 AND c.engineno =#{param.engineno}
             </if>
-            <if test="param.lsnum != null and param.lsnum != ''">
+            <if test="param.frameno != null and param.frameno != ''">
                 AND c.frameno =#{param.frameno}
             </if>
             <if test="param.status != null and param.status != ''">
@@ -138,7 +138,7 @@
                 AND c.biz =#{param.biz}
             </if>
         </where>
-        order by t.time desc
+        order by t.create_time desc
     </select>
     <update id="backMonyCarIllega">
         update  tb_illegal_process status set `status` = -1
@@ -164,6 +164,9 @@
             </if>
             <if test="param.lsnum != null and param.lsnum != ''">
                 AND c.lsnum =#{param.lsnum}
+            </if>
+            <if test="param.engineno != null and param.engineno != ''">
+                AND c.engineno =#{param.engineno}
             </if>
             <if test="param.biz != null and param.biz != ''">
                 AND c.biz =#{param.biz}
